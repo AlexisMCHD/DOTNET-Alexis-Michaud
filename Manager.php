@@ -59,57 +59,6 @@ class Manager
         return $foundUser;
     }
 
-    //récupère 10 articles pour la page d'accueil
-    public function findPosts()
-    {
-        //écrire ma requête SQL dans une variable 
-        $sql = "SELECT posts.*, users.id AS user_id, users.username, users.avatar 
-                FROM posts 
-                JOIN users ON users.id = posts.author_id
-                ORDER BY date_created DESC 
-                LIMIT 10";
-
-        //récupérer pdo
-        $pdo = DbConnection::getPdo();
-
-        //préparer la requête (l'envoyer au serveur SQL)
-        $stmt = $pdo->prepare($sql);
-
-        //exécuter la requête, sans rien dans les ()
-        $stmt->execute();
-
-        //faire un fetchAll pour récupérer les résultats
-        $posts = $stmt->fetchAll();
-
-        //return les résultats
-        return $posts;
-    }
-
-    //récupère un article en fonction de son identifiant
-    public function findPostById($id)
-    {
-        //écrire ma requête SQL dans une variable 
-        $sql = "SELECT posts.*, users.id AS user_id, users.username, users.avatar 
-                FROM posts 
-                JOIN users ON users.id = posts.author_id
-                WHERE posts.id = :id";
-
-        //récupérer pdo
-        $pdo = DbConnection::getPdo();
-
-        //préparer la requête (l'envoyer au serveur SQL)
-        $stmt = $pdo->prepare($sql);
-
-        //exécuter la requête, sans rien dans les ()
-        $stmt->execute([":id" => $id]);
-
-        //faire un fetch pour récupérer l'article
-        $post = $stmt->fetch();
-
-        //return les résultats
-        return $post;
-    }
-
     public function saveNewPost($title, $content, $filename)
     {
         $sql = "INSERT INTO posts

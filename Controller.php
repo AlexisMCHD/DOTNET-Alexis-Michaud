@@ -8,7 +8,7 @@ class Controller
         $manager = new Manager();
 
         //appeler la méthode findPosts et stocker le résultat dans une variable
-        $posts = $manager->findPosts();
+        //$posts = $manager->findPosts();
 
         //dans home.php, on va afficher en boucle la variable
         include("templates/home.php");
@@ -18,7 +18,7 @@ class Controller
     {
         $id = $_GET['id'];
         $manager = new Manager();
-        $post = $manager->findPostById($id);
+        //$post = $manager->findPostById($id);
         
         include("templates/detail.php");
     }
@@ -87,18 +87,18 @@ class Controller
             elseif (strlen($content) > 10000){
                 $errors[] = "10000 caractères max pour le contenu svp !";
             }
-
-    //si je n'ai pas trouvé d'erreur... 
-    if (empty($errors)){
-        $manager = new Manager();
-        $newPostId = $manager->saveNewPost($title, $content, $newFilename);
-
-        //redirige vers la page de détail de ce nouvel article 
-        header("Location: index.php?page=detail&id=$newPostId");
-        die();
-    }
         }
-
-        include("templates/create_post.php");
+   
+        //si je n'ai pas trouvé d'erreur... 
+        if (empty($errors)){
+            $manager = new Manager();
+            $newPostId = $manager->saveNewPost($title, $content, $newFilename);     
+            //redirige vers la page de détail de ce nouvel article 
+            header("Location: index.php?page=detail&id=$newPostId");
+            die();
+        }
+            }
+            include("templates/404.php");
     }
-?>
+}          
+    
